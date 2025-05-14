@@ -11,7 +11,7 @@ function App() {
     password: "",
   });
 
-  const navigate = useNavigate(); // To programmatically navigate to different routes
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -26,10 +26,10 @@ function App() {
       const res = await axios.post("http://localhost:3000/api/register", form);
       console.log(res.data);
 
-      // Reset form after successful registration
+    
       setForm({ username: "", email: "", password: "" });
 
-      // Redirect to login page after successful signup
+      
       navigate("/login");
     } catch (error) {
       console.log("Error during signup:", error);
@@ -47,8 +47,7 @@ function App() {
     try {
       const res = await axios.post("http://localhost:3000/api/login", form);
       console.log(res.data);
-      // You can navigate to a dashboard or home page after successful login
-      // navigate("/dashboard");
+    
     } catch (error) {
       console.log("Error during login:", error);
     }
@@ -65,20 +64,12 @@ function App() {
               setForm={setForm}
               handleSubmit={handleSubmit}
             />
-            
           }
-          
         />
         <Route
           path="/login"
           element={
-            <Login
-              form={form}
-              setForm={setForm}
-              handleSubmit={handleLogin}
-              
-            />
-            
+            <Login form={form} setForm={setForm} handleSubmit={handleLogin} />
           }
         />
       </Routes>
