@@ -21,10 +21,6 @@ export const userLogin = async (req, res) => {
     return res.status(400).json({ message: "Invalid email or password" });
   }
 
-  // Add password verification here if you haven't
-  // const isMatch = await user.comparePassword(password);
-  // if (!isMatch) return res.status(400).json(...)
-
   const token = gentoken(user, res);
 
   res.json({ 
@@ -39,9 +35,15 @@ export const userLogin = async (req, res) => {
 };
 
 
-export const authCheck =async (req , res) => {
-const user = await User.findById(req.user._id).select("-password");
-  res.json(user);
-}
+export const authCheck = async (req, res) => {
+  try {
+    const user = await User.findById(req.user.userId).select("-password");
+    if (!user) return res.status(404).json({ message: "User not found" });
+    res.json(user);
+  } catch (err) {
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
  
 
